@@ -66,18 +66,21 @@ export const ArticleForm = ({ onSave, initialValues }: ArticleFormProps) => {
             defaultValue: initialValues.content,
           })}
         />
-        <InputField
-          {...register("image", {
-            required: !image ? "Please select an image" : false,
-          })}
-          error={errors.image}
-          touchedField={touchedFields.image}
-          placeholder="Image"
-          disabled={isSubmitting}
-          type="file"
-          accept="image/*"
-          onChange={handleImageChange}
-        />
+        <div className="flex gap-4 items-center ">
+          <label className="text-white">Select image</label>
+          <InputField
+            {...register("image", {
+              required: !image ? "Please select an image" : false,
+            })}
+            error={errors.image}
+            touchedField={touchedFields.image}
+            placeholder="Image"
+            disabled={isSubmitting}
+            type="file"
+            accept="image/*"
+            onChange={handleImageChange}
+          />
+        </div>
         <img src={image} className="rounded-md" />
         <button
           type="submit"
