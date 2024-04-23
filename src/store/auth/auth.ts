@@ -27,12 +27,10 @@ export const authSlice = createSlice({
       state.allUsers?.push(action.payload);
     },
     fetchAllUsers: (state) => {
-      const stringifiedUsers = localStorage.getItem(ALLUSERS);
-      const allUsers = stringifiedUsers ? JSON.parse(stringifiedUsers) : [];
+      const allUsers = allStoredUsers ? JSON.parse(allStoredUsers) : [];
       state.allUsers = [...allUsers];
     },
     fetchCurrentUser: (state) => {
-      const storedUser = localStorage.getItem(USER);
       const currentUser = storedUser ? JSON.parse(storedUser) : null;
       state.user = { ...currentUser };
     },

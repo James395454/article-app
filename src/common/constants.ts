@@ -6,3 +6,5 @@ export const AUTH = {
   login: "login",
   register: "register",
 };
+
+export const ARTICLES = "ARTICLES";

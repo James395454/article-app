@@ -6,6 +6,8 @@ import { RegisterForm } from "src/components/forms/RegisterForm";
 import { useDispatch, useSelector } from "react-redux";
 import { registerUser, setCurrentUser } from "src/store/auth/auth";
 import { RootState } from "src/store/store";
+import { FieldValues } from "react-hook-form";
+import { User } from "src/interfaces/UserInterface";
 
 export const Auth = () => {
   const [authType, setAuthType] = useState(AUTH.login);
@@ -14,24 +16,21 @@ export const Auth = () => {
 
   const allUsers = useSelector((state: RootState) => state.auth.allUsers);
 
-  const handleLogin = (values) => {
-    console.log("values", values);
-    console.log("allUsers", allUsers, values);
-    const isUserExists = allUsers?.find(
+  const handleLogin = (values: FieldValues) => {
+    const existingUser = allUsers?.find(
       (user) => user.email === values.email && user.password === values.password
     );
-    if (isUserExists) {
-      localStorage.setItem(USER, JSON.stringify(values));
-      dispatch(setCurrentUser(values));
+    if (existingUser) {
+      localStorage.setItem(USER, JSON.stringify(existingUser));
+      dispatch(setCurrentUser(existingUser as User));
       navigate("/");
     }
   };
 
-  const handleRegister = (values) => {
-    console.log("values", values);
+  const handleRegister = (values: FieldValues) => {
     const newUsers = allUsers ? [...allUsers, values] : [values];
     localStorage.setItem(ALLUSERS, JSON.stringify(newUsers));
-    dispatch(registerUser(values));
+    dispatch(registerUser(values as User));
     setAuthType(AUTH.login);
   };
 

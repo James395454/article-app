@@ -1,23 +1,23 @@
 import { forwardRef } from "react";
 import { FieldError, Merge, FieldErrorsImpl } from "react-hook-form";
 
-interface InputFieldProps {
+interface TextAreaProps {
   error?: FieldError | Merge<FieldError, FieldErrorsImpl<any>> | undefined;
   touchedField?: string;
 }
-export const InputField = forwardRef(
+export const TextArea = forwardRef(
   (
     {
       error,
       touchedField,
       ...inputProps
-    }: InputFieldProps & React.HTMLProps<HTMLInputElement>,
+    }: TextAreaProps & React.HTMLProps<HTMLTextAreaElement>,
     ref: any
   ) => {
     return (
       <div className="text-left">
-        <input
-          className={`text-md  py-[13px] px-3  rounded-lg border placeholder-inputPlaceholder ${
+        <textarea
+          className={`w-[300px] h-[200px] text-md  py-[13px] px-3  rounded-lg border placeholder-inputPlaceholder ${
             error && touchedField ? "border-inputError" : "border-inputBorder"
           } ${error && touchedField ? "text-inputError" : "text-inputText"}`}
           ref={ref}
