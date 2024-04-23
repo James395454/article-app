@@ -16,7 +16,7 @@ export const LoginForm = ({ onLogin }: LoginFormProps) => {
   return (
     <form
       onSubmit={handleSubmit(onLogin)}
-      className="flex flex-col gap-6 mt-[200px] mx-auto max-w-[700px] items-center"
+      className="flex flex-col gap-6 items-center"
     >
       <InputField
         {...register("email", {
@@ -40,7 +40,7 @@ export const LoginForm = ({ onLogin }: LoginFormProps) => {
       />
       <button
         type="submit"
-        className="bg-submitBg  px-5 py-3 text-white border rounded-xl font-medium"
+        className="bg-submitBg  px-5 py-3 text-white rounded-xl font-medium  w-[150px]"
         disabled={isSubmitting}
       >
         Login

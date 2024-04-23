@@ -10,10 +10,13 @@ import { fetchArticles } from "src/store/articles/articles";
 import { RootState } from "src/store/store";
 import { getBase64 } from "src/utils/imageUtils";
 import { v4 as uuid } from "uuid";
+import toast, { Toaster } from "react-hot-toast";
 
 export const ArticlesList = () => {
   const dispatch = useDispatch();
-  const articles = useSelector((state: RootState) => state.articles.articles);
+  const articles = useSelector(
+    (state: RootState) => state.articles.allArticles
+  );
   const [isArticleFormOpen, setIsArticleFormOpen] = useState(false);
   const [articleToEdit, setArticleToEdit] = useState<ArticleInterface | null>(
     null
@@ -24,20 +27,34 @@ export const ArticlesList = () => {
   }, []);
 
   const saveArticle = async (values: FieldValues) => {
-    const currentDate = new Date(Date.now());
-    const formattedDate = currentDate.toLocaleDateString("en-US", {
-      day: "2-digit",
-      month: "long",
-      year: "numeric",
-    });
+    try {
+      const currentDate = new Date(Date.now());
+      const formattedDate = currentDate.toLocaleDateString("en-US", {
+        day: "2-digit",
+        month: "long",
+        year: "numeric",
+      });
 
-    const image = await getBase64(values.image[0]);
+      const image = await getBase64(values.image[0]);
 
-    const newArticle = { ...values, date: formattedDate, id: uuid(), image };
-    const newArticles = articles ? [newArticle, ...articles] : [newArticle];
-    localStorage.setItem(ARTICLES, JSON.stringify(newArticles));
-    dispatch(fetchArticles());
-    setIsArticleFormOpen(false);
+      const newArticle = { ...values, date: formattedDate, id: uuid(), image };
+      const newArticles = articles ? [newArticle, ...articles] : [newArticle];
+      localStorage.setItem(ARTICLES, JSON.stringify(newArticles));
+      dispatch(fetchArticles());
+      setIsArticleFormOpen(false);
+    } catch {
+      toast.error(
+        "Local storage limit exceeded, please use smaller sized images",
+        {
+          position: "bottom-center",
+          style: {
+            textAlign: "center",
+            background: "rgb(13 148 136)",
+            color: "white",
+          },
+        }
+      );
+    }
   };
 
   const editArticle = async (values: FieldValues) => {
@@ -82,6 +99,7 @@ export const ArticlesList = () => {
 
   return (
     <>
+      <Toaster />
       {isArticleFormOpen ? (
         <Popup
           isOpen
@@ -99,26 +117,33 @@ export const ArticlesList = () => {
       ) : null}
       <div className="flex flex-col m-auto mt-10 gap-10 items-center">
         <button
-          className="bg-submitBg  w-[200px] px-5 py-3 text-white border rounded-xl font-medium"
+          className="bg-submitBg w-[200px] px-5 py-3 text-white border rounded-xl font-medium"
           onClick={() => setIsArticleFormOpen(true)}
         >
           Add article
         </button>
-        {articles.map(
-          ({ id, title, content, date, image }: ArticleInterface) => (
-            <Article
-              title={title}
-              content={content}
-              date={date}
-              image={image}
-              id={id}
-              onDelete={() => handleDeleteArticle(id)}
-              onEdit={() => {
-                setIsArticleFormOpen(true);
-                setArticleToEdit({ id, title, content, date, image });
-              }}
-            />
+        {articles.length > 0 ? (
+          articles.map(
+            ({ id, title, content, date, image }: ArticleInterface) => (
+              <Article
+                key={id}
+                title={title}
+                content={content}
+                date={date}
+                image={image}
+                id={id}
+                onDelete={() => handleDeleteArticle(id)}
+                onEdit={() => {
+                  setIsArticleFormOpen(true);
+                  setArticleToEdit({ id, title, content, date, image });
+                }}
+              />
+            )
           )
+        ) : (
+          <div className="mt-10">
+            <h1 className="text-lg">No articles have been added yet!</h1>
+          </div>
         )}
       </div>
     </>

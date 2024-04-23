@@ -16,7 +16,7 @@ export const RegisterForm = ({ onRegister }: RegisterFormProps) => {
   return (
     <form
       onSubmit={handleSubmit(onRegister)}
-      className="flex flex-col gap-6 mt-[200px] mx-auto max-w-[700px] items-center"
+      className="flex flex-col gap-6 items-center"
     >
       <InputField
         {...register("firstName", {
@@ -58,7 +58,7 @@ export const RegisterForm = ({ onRegister }: RegisterFormProps) => {
       />
       <button
         type="submit"
-        className="bg-submitBg w-[112px] px-5 py-3 text-white border rounded-xl font-medium"
+        className="bg-submitBg w-[112px] px-5 py-3 text-white rounded-xl font-medium  w-[150px]"
         disabled={isSubmitting}
       >
         Register

@@ -17,7 +17,7 @@ export const InputField = forwardRef(
     return (
       <div className="text-left">
         <input
-          className={`text-md  py-[13px] px-3  rounded-lg border placeholder-inputPlaceholder ${
+          className={`text-md  py-[13px] px-3  rounded-lg border placeholder-inputPlaceholder w-[300px] ${
             error && touchedField ? "border-inputError" : "border-inputBorder"
           } ${error && touchedField ? "text-inputError" : "text-inputText"}`}
           ref={ref}

@@ -4,11 +4,11 @@ import { ARTICLES } from "src/common/constants";
 import { Article } from "src/interfaces/ArticleInterface";
 
 export interface ArticleState {
-  articles: Article[];
+  allArticles: Article[];
 }
 
 const initialState: ArticleState = {
-  articles: [],
+  allArticles: [],
 };
 
 export const articlesSlice = createSlice({
@@ -18,7 +18,7 @@ export const articlesSlice = createSlice({
     fetchArticles: (state) => {
       const storedArticles = localStorage.getItem(ARTICLES);
       const allArticles = storedArticles ? JSON.parse(storedArticles) : [];
-      state.articles = [...allArticles];
+      state.allArticles = [...allArticles];
     },
   },
 });

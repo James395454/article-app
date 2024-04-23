@@ -43,14 +43,6 @@ export const Popup = ({ isOpen, onClose, children, title }: Popup) => {
               </button>
             </div>
             <div className="p-4 md:p-5 space-y-4">{children}</div>
-            <div className="flex items-center p-4 md:p-5 border-t border-gray-200 rounded-b dark:border-gray-600">
-              <button
-                onClick={onClose}
-                className="py-2.5 px-5 ms-3 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700"
-              >
-                Cancel
-              </button>
-            </div>
           </div>
         </div>
       </div>

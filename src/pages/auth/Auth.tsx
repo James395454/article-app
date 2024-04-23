@@ -8,6 +8,7 @@ import { registerUser, setCurrentUser } from "src/store/auth/auth";
 import { RootState } from "src/store/store";
 import { FieldValues } from "react-hook-form";
 import { User } from "src/interfaces/UserInterface";
+import toast, { Toaster } from "react-hot-toast";
 
 export const Auth = () => {
   const [authType, setAuthType] = useState(AUTH.login);
@@ -24,6 +25,15 @@ export const Auth = () => {
       localStorage.setItem(USER, JSON.stringify(existingUser));
       dispatch(setCurrentUser(existingUser as User));
       navigate("/");
+    } else {
+      toast.error("Invalid credentials", {
+        position: "bottom-center",
+        style: {
+          textAlign: "center",
+          background: "rgb(13 148 136)",
+          color: "white",
+        },
+      });
     }
   };
 
@@ -32,15 +42,28 @@ export const Auth = () => {
     localStorage.setItem(ALLUSERS, JSON.stringify(newUsers));
     dispatch(registerUser(values as User));
     setAuthType(AUTH.login);
+    toast.success(
+      "You have been registered successfully, you may now login with your new credentials",
+      {
+        position: "bottom-center",
+        style: {
+          textAlign: "center",
+          background: "rgb(13 148 136)",
+          color: "white",
+        },
+      }
+    );
   };
 
   return (
-    <div className="flex flex-col items-center">
+    <div className="flex flex-col items-center  rounded-md max-w-[600px] mt-[100px] mx-auto p-10 gap-6 bg-[#31365F]">
+      <Toaster />
+      <h1 className="text-lg text-white">Login</h1>
       {authType === AUTH.login ? (
         <>
           <LoginForm onLogin={handleLogin} />
           <button
-            className="bg-submitBg px-5 py-3 text-white border rounded-xl font-medium mt-4"
+            className="bg-submitBg px-5 py-3 text-white rounded-xl font-medium w-[150px]"
             onClick={() => setAuthType(AUTH.register)}
           >
             Register
@@ -50,7 +73,7 @@ export const Auth = () => {
         <>
           <RegisterForm onRegister={handleRegister} />
           <button
-            className="bg-submitBg px-5 py-3 text-white border rounded-xl font-medium mt-4"
+            className="bg-[blue] px-5 py-3 text-white rounded-xl font-medium w-[150px]"
             onClick={() => setAuthType(AUTH.login)}
           >
             Back to login
